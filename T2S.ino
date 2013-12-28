@@ -45,6 +45,9 @@ void T2S_setup()  // Set up code called once on start-up
   while (t2s_serial.read() != ':');   // When the Emic 2 has initialized and is ready, it will send a single ':' character, so wait here until we receive it
   delay(10);                          // Short delay
   T2S_flush();                 // Flush the receive buffer
+  long random_seed = analogRead(5);
+  randomSeed(random_seed);
+  //saynumber(random_seed);
 }
 
 void T2S_flush()
@@ -156,4 +159,69 @@ void T2S_sing_daisy()
   //while (t2s_serial.read() != ':');   // Wait here until the Emic 2 responds with a ":" indicating it's ready to accept the next command
   //L_LED_off();  
   //listening();
+}
+
+
+void T2S_random_response_for_robot()
+{
+  long randNumber = random(9);
+    switch (randNumber) {
+      case 0:
+        say("Yes?");        
+        break;
+      case 1:
+        say("Human!");
+        break;
+      case 2:
+        say("What?");
+        break;
+      case 3:
+        say("That is my name, don't wear it out.");
+        break;
+      case 4:
+        say("Hi.");
+        break;
+      case 5:
+        say("Affirmative.");
+        break;
+      case 6:
+        say("What do you want?");
+        break;
+      default: 
+          say("Yes?");
+          //saynumber(randNumber);
+          break;
+    }  
+}
+
+void T2S_random_8_ball_response()
+{
+  long randNumber = random(7);
+    switch (randNumber) {
+      case 0:
+        say("Ask again later.");        
+        break;
+      case 1:
+        say("Yes!");
+        break;
+      case 2:
+        say("No.");
+        break;
+      case 3:
+        say("As I see it, yes.");
+        break;
+      case 4:
+        say("Reply hazy try again.");
+        break;
+      case 5:
+        say("My sources say no.");
+        break;
+      case 6:
+        say("Concentrate and ask again.");
+        break;
+      default: 
+          say("It is certain.");
+          //saynumber(randNumber);
+          break;
+    }  
 }

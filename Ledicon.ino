@@ -15,21 +15,37 @@
   along with this software.
   If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.  
 */
-#define ledPin 13
+
+#define red_led 10
+#define green_led 11
+#define blue_led 9
+
+void L_red_off()
+{
+  digitalWrite(red_led, LOW);
+}
 
 void L_setup()
 {
-  pinMode(ledPin, OUTPUT);
-  digitalWrite(ledPin, LOW);
+  pinMode(red_led, OUTPUT);
+  digitalWrite(red_led, LOW);
+  pinMode(green_led, OUTPUT);
+  digitalWrite(green_led, LOW);
+  pinMode(blue_led, OUTPUT);
+  digitalWrite(blue_led, LOW);
+  
+  digitalWrite(red_led, HIGH);
 }
 
 void L_LED_on()
 {
-  digitalWrite(ledPin, HIGH);
+  digitalWrite(green_led, LOW);
+  digitalWrite(blue_led, HIGH);
 }
 
 void L_LED_off()
 {
-  digitalWrite(ledPin, LOW);
+  digitalWrite(blue_led, LOW);
+  digitalWrite(green_led, HIGH);
   //T2S_flush();
 }

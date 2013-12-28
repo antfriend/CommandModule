@@ -74,56 +74,30 @@ void setup()  // Set up code called once on start-up
   VR_setup();
 
   //T2S_flush();
-  long random_seed = analogRead(5);
-  randomSeed(random_seed);
-  saynumber(random_seed);
-  //T2S_hello();
+  L_red_off();
+  T2S_hello();
 }
 
 void action();
 
 void loop_until_trigger_spoken()
 {
-  int the_group = EasyVR::TRIGGER; //<-- start group (customize)
+  int the_group = EasyVR::TRIGGER; 
   int heard = 0;
   while(heard != 1)
   {
     heard = VR_listening_for_group(the_group);
-    /*
-    switch (heard) {
-      case 0:
-        say("Case 0.");
-        
-        
-        break;
-      case 1:
-        say("Case 1.");
-        the_group = GROUP_1;
-        
-        //T2S_hello();
-        break;
-      default: 
-          say("Default case.");
-          saynumber(heard);
-          //T2S_hello();
-          break;
-        // if nothing else matches, do the default
-        // default is optional
-    }
-  */    
   } 
 }
 
 void listen_for_GROUP_1()
 {
-  //int the_group = EasyVR::TRIGGER; //<-- start group (customize)
-  int heard = 0;
-  //while(heard != 2)
-  //{
+    int heard = 0;
     heard = VR_listening_for_group(GROUP_1);
-    saynumber(heard);
+    //saynumber(heard);
     
-    switch (heard) {
+    switch (heard) 
+    {
       case 0:
         say("Are you going to say something?");
         heard = VR_listening_for_group(GROUP_1);//timed out try again
@@ -138,38 +112,52 @@ void listen_for_GROUP_1()
       default: 
           //say("Default case.");
           //saynumber(heard);
-          //T2S_hello();
+         //T2S_hello();
           break;
         // if nothing else matches, do the default
         // default is optional
     }
-      
-  //} 
 }
 
 void listen_for_Action()
 {
-  //int the_group = EasyVR::TRIGGER; //<-- start group (customize)
-  int heard = 0;
-  //while(heard != 2)
-  //{
+    int heard = 0;
     heard = VR_listening_for_word(EasyVR::ACTION_SET);
-    saynumber(heard);
     
     switch (heard) {
-      case 0:
-        say("Are you going to say something?");
-        heard = VR_listening_for_group(EasyVR::ACTION_SET);//timed out try again
- 
+      case -1:
+        //heard = VR_listening_for_word(EasyVR::ACTION_SET);//timed out try again
+        //say("I don't understand.");
+        //random 8 ball response
+        T2S_random_8_ball_response();
         break;
-      case 2:
-        say("So what?");
-        //the_group = GROUP_1;
+      case 0://Action
+        say("Action!");
+        break;
+      case 1://Move
+        say("Move what?");
+        break;
+      case 2://Turn
+        say("Turn what?");
+        break;
+      case 3://Run
+        say("Run what?");
+        break;
+      case 4://Look
+        say("I have no optical sensors.");
+        break;
+      case 5://Attack
+        say("Attack!");
+        break;
+      case 6://Stop
+        say("Stop!");
+        break;
+      case 7://Hello
+        say("Hello there, nice to meet you.");
+        break;
         
-        //T2S_hello();
-        break;
       default: 
-          //say("Default case.");
+          say("Default case.");
           //saynumber(heard);
           //T2S_hello();
           break;
@@ -180,44 +168,11 @@ void listen_for_Action()
   //} 
 }
 
-void random_response_for_robot()
-{
-  long randNumber = random(6);
-    switch (randNumber) {
-      case 0:
-        say("Yes?");        
-        break;
-      case 1:
-        say("Human!");
-        break;
-      case 2:
-        say("What?");
-        break;
-      case 3:
-        say("That is my name, don't wear it out.");
-        break;
-      case 4:
-        say("Hi.");
-        break;
-      case 5:
-        say("Hello.");
-        break;
-      case 6:
-        say("What do you want?");
-        break;
-      default: 
-          say("You are number.");
-          saynumber(randNumber);
-          break;
-    }  
-  //say("human.");
-}
-
 void loop()  // Main code, to run repeatedly
 { 
   //say("Listening.");
   loop_until_trigger_spoken();
-  random_response_for_robot();//listen for the trigger
+  T2S_random_response_for_robot();//listen for the trigger
   //listen_for_GROUP_1();
   listen_for_Action();
   
@@ -270,10 +225,38 @@ void VR_setup()
 
 int VR_listening_for_word(int group)
 {
- //recognizeWord
-  //easyvr.recognizeCommand(group);
   easyvr.recognizeWord(group);
-  return VR_listening(group);
+  do
+  {
+    // can do some processing while waiting for a spoken command
+  }
+  while (!easyvr.hasFinished());
+  idx = easyvr.getWord();
+  //saynumber(idx);
+  if (idx >= 0)
+  {
+    return idx;
+  }
+  else // errors or timeout
+  {
+    if (easyvr.isTimeout())
+    {
+      //say("Are you going to say something?");
+      return -1;
+    }
+    /*
+    if (easyvr.isTimeout())
+      T2S_times_up();
+      //Serial.println("Timed out, try again...");
+    */
+    int16_t err = easyvr.getError();
+    if (err >= 0)
+    {
+      //say("Error number.");
+      //saynumber(err);
+    }
+  }
+  return idx;
 }
 
 int VR_listening_for_group(int group)
