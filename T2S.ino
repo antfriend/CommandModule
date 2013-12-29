@@ -45,11 +45,25 @@ void T2S_setup()  // Set up code called once on start-up
   while (t2s_serial.read() != ':');   // When the Emic 2 has initialized and is ready, it will send a single ':' character, so wait here until we receive it
   delay(10);                          // Short delay
   T2S_flush();                 // Flush the receive buffer
-  set_voice(7);
+  set_voice(2);
+  set_settings();
   //say("test 2");
   long random_seed = analogRead(5);
   randomSeed(random_seed);
   //saynumber(random_seed);
+}
+
+void set_settings()
+{
+  //set volume, rate, and language defaults
+  speaking();
+  L_LED_on();
+  t2s_serial.print("V9"); //Volume: [-48 to 18] default=0
+  t2s_serial.print('\n');
+  t2s_serial.print("W100"); //speaking rate in words per minute [75 - 600] default=200
+  t2s_serial.print('\n');
+  t2s_serial.print(" ");//dont know why it wont start without this
+  postspoke();  
 }
 
 void T2S_flush()
@@ -68,7 +82,7 @@ void postspoke()
 {
   t2s_serial.print('\n');
   while (t2s_serial.read() != ':');   // Wait here until the Emic 2 responds with a ":" indicating it's ready to accept the next command
-  //t2s_serial.flush();
+  t2s_serial.flush();
   L_LED_off();   
   listening(); 
 }
