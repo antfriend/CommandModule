@@ -45,6 +45,8 @@ void T2S_setup()  // Set up code called once on start-up
   while (t2s_serial.read() != ':');   // When the Emic 2 has initialized and is ready, it will send a single ':' character, so wait here until we receive it
   delay(10);                          // Short delay
   T2S_flush();                 // Flush the receive buffer
+  set_voice(7);
+  //say("test 2");
   long random_seed = analogRead(5);
   randomSeed(random_seed);
   //saynumber(random_seed);
@@ -66,9 +68,19 @@ void postspoke()
 {
   t2s_serial.print('\n');
   while (t2s_serial.read() != ':');   // Wait here until the Emic 2 responds with a ":" indicating it's ready to accept the next command
-  t2s_serial.flush();
+  //t2s_serial.flush();
   L_LED_off();   
   listening(); 
+}
+
+void set_voice(int vnum)
+{
+  speaking();
+  L_LED_on();
+  t2s_serial.print('N' + String(vnum)); 
+  t2s_serial.print('\n');
+  t2s_serial.print(" ");//dont know why it wont start without this
+  postspoke();
 }
 
 void say(String say_what)
@@ -139,6 +151,13 @@ void T2S_all_voices()
   say("  :-)0 voice 0 :-)1 voice 1 :-)2 voice 2 :-)3 voice 3 :-)4 voice 4 :-)5 voice 5 :-)6 voice 6 :-)7 voice 7 :-)8 voice 8. :-)4");  
 }
 
+void T2S_use_voice(int voice)
+{
+  set_voice(voice);
+  say("Now using voice number " + String(voice) + " of 0 through 8.");
+  //say("  :-)" + String(voice) + "This is voice number." + String(voice) + ".  I am happy to be speaking to you now as voice number." + String(voice));  
+}
+
 void T2S_test()
 {
   say("Outlook hazy.");  // Send the desired string to convert to speech
@@ -164,7 +183,7 @@ void T2S_sing_daisy()
 
 void T2S_random_response_for_robot()
 {
-  long randNumber = random(9);
+  long randNumber = random(11);
     switch (randNumber) {
       case 0:
         say("Yes?");        
@@ -196,13 +215,13 @@ void T2S_random_response_for_robot()
 
 void T2S_random_8_ball_response()
 {
-  long randNumber = random(7);
+  long randNumber = random(11);
     switch (randNumber) {
       case 0:
-        say("Ask again later.");        
+        say("Ask again laytur.");        
         break;
       case 1:
-        say("Yes!");
+        say("It is certain.");
         break;
       case 2:
         say("No.");
@@ -211,16 +230,16 @@ void T2S_random_8_ball_response()
         say("As I see it, yes.");
         break;
       case 4:
-        say("Reply hazy try again.");
+        say("Reply hayzee try again.");
         break;
       case 5:
-        say("My sources say no.");
+        say("My sources say, no.");
         break;
       case 6:
-        say("Concentrate and ask again.");
+        say("Concentrate, and ask again.");
         break;
       default: 
-          say("It is certain.");
+          say("Yes.");
           //saynumber(randNumber);
           break;
     }  
