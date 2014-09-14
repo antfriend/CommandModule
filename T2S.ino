@@ -58,7 +58,7 @@ void set_settings()
   //set volume, rate, and language defaults
   speaking();
   L_LED_on();
-  t2s_serial.print("V9"); //Volume: [-48 to 18] default=0
+  t2s_serial.print("V0"); //Volume: [-48 to 18] default=0
   t2s_serial.print('\n');
   t2s_serial.print("W100"); //speaking rate in words per minute [75 - 600] default=200
   t2s_serial.print('\n');
@@ -197,31 +197,31 @@ void T2S_sing_daisy()
 
 void T2S_random_response_for_robot()
 {
-  long randNumber = random(11);
+  long randNumber = random(15);
     switch (randNumber) {
       case 0:
-        say("Yes?");        
+        say("Yes");        
         break;
       case 1:
-        say("Human!");
+        say("Human");
         break;
       case 2:
-        say("What?");
+        say("What");
         break;
       case 3:
-        say("That is my name, don't wear it out.");
+        say("That is my name, don't wear it out");
         break;
       case 4:
-        say("Hi.");
+        say("Hi");
         break;
       case 5:
-        say("Affirmative.");
+        say("Affirmative!");
         break;
       case 6:
         say("What do you want?");
         break;
       default: 
-          say("Yes?");
+          say("I am not Stephen Hawking.");
           //saynumber(randNumber);
           break;
     }  

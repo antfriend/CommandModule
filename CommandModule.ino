@@ -5,6 +5,8 @@
   Dan Ray antfriend@gmail.com
   12/15/2013
   
+  //Arduino Uno
+  
   This program wraps up verbal interactivity and visual (LED) status, with a simple parallel binary status out for controlling other hardware.
 
   To the extent possible under law, the author(s) have dedicated all
@@ -23,6 +25,8 @@ SoftwareSerial vr_serial = SoftwareSerial(vrrxPin,vrtxPin);//vr
 
 #define rxPin 2    // Serial input (connects to Emic 2 SOUT)
 #define txPin 3    // Serial output (connects to Emic 2 SIN)
+
+#define buttonPin 12    // Serial output (connects to Emic 2 SIN)
 
 SoftwareSerial t2s_serial =  SoftwareSerial(rxPin, txPin);
 
@@ -54,6 +58,24 @@ enum Group3
 
 EasyVRBridge bridge;
 int8_t group, idx;
+boolean you_pushed_it;
+
+void button_pushed()
+{
+  say("Roger. Don't do that!");
+}
+
+void if_button_pushed()
+{
+    X_LED_on();
+    if(digitalRead(buttonPin) == LOW)
+    {
+      you_pushed_it = true;
+      button_pushed();
+    }
+    delay(50);
+    X_LED_off();
+}
 
 void listening()
 {
@@ -71,7 +93,7 @@ void speaking()
   }
 }
 
-void setup()  // Set up code called once on start-up
+void setup()
 {
   L_setup();
   T2S_setup();//can't say anything before initiating the bridge check - or bridge won't work
@@ -87,7 +109,14 @@ void setup()  // Set up code called once on start-up
 
   //T2S_flush();
   L_red_off();
-  T2S_hello();
+  //T2S_hello();
+
+  digitalWrite(buttonPin,HIGH);
+  pinMode(buttonPin, INPUT);
+  digitalWrite(buttonPin,HIGH);
+  digitalWrite(13,LOW);
+  pinMode(13, OUTPUT);
+  you_pushed_it = false;
 }
 
 
@@ -118,17 +147,16 @@ void VR_setup()
   easyvr.setLanguage(0);//easyvr.setLanguage(EasyVR::JAPANESE);
 }
 
-
-//void action();
-
 void loop_until_trigger_spoken()
 {
   int the_group = EasyVR::TRIGGER; 
   int heard = 0;
+  
   while(heard != 99)
   {
     heard = VR_listening_for_group(the_group);
-  } 
+    if_button_pushed();
+  }     
 }
 
 void listen_for_GROUP_3()
@@ -265,30 +293,18 @@ void listen_for_Action()
 
 void loop()  // Main code, to run repeatedly
 { 
-  //say("Listening.");
-  loop_until_trigger_spoken();
-  T2S_random_response_for_robot();//listen for the trigger
-  listen_for_GROUP_2();
-  //listen_for_Action();built-in wordset
-  
-  //heard = VR_listening(the_group);
-  
-  
-  //VR_loop();
-  //T2S_all_voices();
-
-  //delay(500);    // 1/2 second delay
-    
-  //T2S_sing_daisy();
-  /*
-  while(1)      // Demonstration complete!
+  if(you_pushed_it == true)
   {
-    delay(500);
-    L_LED_on();
-    delay(500);              
-    L_LED_off();
+    say("pushed.");
+    G_LED_on();
+    if_button_pushed();
   }
-  */
+  else
+  {
+    loop_until_trigger_spoken();
+    T2S_random_response_for_robot();//listen for the trigger
+    listen_for_GROUP_2();    
+  }
 }
 
 int VR_listening_for_word(int group)
@@ -339,6 +355,7 @@ int VR_listening(int group)
   do
   {
     // can do some processing while waiting for a spoken command
+    
   }
   while (!easyvr.hasFinished());
   idx = easyvr.getWord();
