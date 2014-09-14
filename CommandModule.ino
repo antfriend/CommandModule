@@ -62,7 +62,34 @@ boolean you_pushed_it;
 
 void button_pushed()
 {
-  say("Roger. Don't do that!");
+    //T2S_volume_max();
+    long randNumber = random(8);
+    switch (randNumber) {
+      case 0:
+        say("Roger. Stop it.");    
+        break;
+      case 1:
+        say("Roger. Just quit.");
+        break;
+      case 2:
+        say("Roger. Why?  Why?  Why?");
+        break;
+      case 3:
+        say("Roger. I hear your mommy calling.");
+        break;
+      case 4:
+        say("Roger. You are special.");
+        break;
+      case 5:
+        say("Roger. NO!");
+        break;
+      case 6:
+        say("Roger. Just accept it.");
+        break;
+      default: 
+          say("Roger. Don't do that!");
+          break;
+    }  
 }
 
 void if_button_pushed()
@@ -97,6 +124,21 @@ void setup()
 {
   L_setup();
   T2S_setup();//can't say anything before initiating the bridge check - or bridge won't work
+  
+  digitalWrite(buttonPin,HIGH);
+  pinMode(buttonPin, INPUT);
+  digitalWrite(buttonPin,HIGH);
+  digitalWrite(13,LOW);
+  pinMode(13, OUTPUT);
+  you_pushed_it = false;
+  if_button_pushed(); 
+  
+  while(you_pushed_it)
+  {
+    if_button_pushed();
+  }
+  
+
   //saynumber(100);
   //saynumber(0);
   //saynumber(1);
@@ -106,17 +148,9 @@ void setup()
   //T2S_sing_daisy();
     
   VR_setup();
-
   //T2S_flush();
   L_red_off();
   //T2S_hello();
-
-  digitalWrite(buttonPin,HIGH);
-  pinMode(buttonPin, INPUT);
-  digitalWrite(buttonPin,HIGH);
-  digitalWrite(13,LOW);
-  pinMode(13, OUTPUT);
-  you_pushed_it = false;
 }
 
 

@@ -66,6 +66,19 @@ void set_settings()
   postspoke();  
 }
 
+void T2S_volume_max()
+{
+  speaking();
+  t2s_serial.print("V17"); //Volume: [-48 to 18] default=0
+  postspoke();
+}
+
+void T2S_volume_min()
+{
+  t2s_serial.print("V-48"); //Volume: [-48 to 18] default=0
+  //postspoke();
+}
+
 void T2S_flush()
 {
   t2s_serial.flush();
