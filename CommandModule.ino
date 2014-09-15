@@ -62,8 +62,8 @@ boolean you_pushed_it;
 
 void button_pushed()
 {
-    //T2S_volume_max();
-    long randNumber = random(8);
+    T2S_volume_max();
+    long randNumber = random(16);
     switch (randNumber) {
       case 0:
         say("Roger. Stop it.");    
@@ -86,8 +86,12 @@ void button_pushed()
       case 6:
         say("Roger. Just accept it.");
         break;
+      case 7:
+        say("Roger. Don't do that!");
+        break;
+                
       default: 
-          say("Roger. Don't do that!");
+          say("Roger. This is no.");
           break;
     }  
 }
