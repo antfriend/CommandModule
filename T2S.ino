@@ -3,24 +3,7 @@
   T2S - a Text To Speech software module for the Emic 2 text-to-speech hardware module
                                                          
   Dan Ray antfriend@gmail.com
-  12/15/2013
-  
-  This module provides functions for sequencing LED animations on a 3x4 LED matrix
 
-  To the extent possible under law, the author(s) have dedicated all
-  copyright and related and neighboring rights to this software to the 
-  public domain worldwide. This software is distributed without any warranty.
-
-  You should have received a copy of the CC0 Public Domain Dedication
-  along with this software.
-  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
-
-
-#include <SoftwareSerial.h>
-#define rxPin 2    // Serial input (connects to Emic 2 SOUT)
-#define txPin 3    // Serial output (connects to Emic 2 SIN)
-
-SoftwareSerial t2s_serial =  SoftwareSerial(rxPin, txPin);
 */
 
 
@@ -69,7 +52,7 @@ void set_settings()
 void T2S_volume_max()
 {
   speaking();
-  t2s_serial.print("V17"); //Volume: [-48 to 18] default=0
+  t2s_serial.print("V10"); //Volume: [-48 to 18] default=0
   postspoke();
 }
 

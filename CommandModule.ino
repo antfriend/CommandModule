@@ -3,19 +3,9 @@
   
   The Command Module - "every dangerous futuristic invention needs The Command Module" 
   Dan Ray antfriend@gmail.com
-  12/15/2013
-  
+
   //Arduino Uno
   
-  This program wraps up verbal interactivity and visual (LED) status, with a simple parallel binary status out for controlling other hardware.
-
-  To the extent possible under law, the author(s) have dedicated all
-  copyright and related and neighboring rights to this software to the 
-  public domain worldwide. This software is distributed without any warranty.
-
-  You should have received a copy of the CC0 Public Domain Dedication
-  along with this software.
-  If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
 */
 #include <SoftwareSerial.h>
 
@@ -50,7 +40,7 @@ enum Group2
 
 enum Group3 
 {
-  G3_CHIENESE = 0,
+  G3_CHINESE = 0,
   G3_ENGLISH = 1,
   G3_DAISY = 2,
   G3_KLINGON = 3,
@@ -134,9 +124,11 @@ void setup()
   digitalWrite(buttonPin,HIGH);
   digitalWrite(13,LOW);
   pinMode(13, OUTPUT);
-  you_pushed_it = false;
-  if_button_pushed(); 
   
+  you_pushed_it = true;//set to false, the button must be held on startup to enter "Rogerisms" mode
+  
+  if_button_pushed(); 
+   
   while(you_pushed_it)
   {
     if_button_pushed();
@@ -204,7 +196,7 @@ void listen_for_GROUP_3()
 
     switch(heard)
     {
-        case G3_CHIENESE:
+        case G3_CHINESE:
           say("Nee how.");
           break;
         case G3_ENGLISH:

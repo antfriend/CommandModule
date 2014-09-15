@@ -3,8 +3,7 @@
   LED Icon Animation Module
                                                          
   Dan Ray antfriend@gmail.com
-  12/15/2013
-  
+   
   This module provides functions for sequencing LED animations on a 3x4 LED matrix
 
 */
