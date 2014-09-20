@@ -163,6 +163,7 @@ void T2S_all_voices()
 
 void T2S_use_voice(int voice)
 {
+  //voice can be an int from 0-8
   set_voice(voice);
   say("Now using voice number " + String(voice) + " of 0 through 8.");
   //say("  :-)" + String(voice) + "This is voice number." + String(voice) + ".  I am happy to be speaking to you now as voice number." + String(voice));  

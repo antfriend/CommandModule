@@ -1,4 +1,6 @@
 CommandModule
 =============
-A listening and speaking module to control things.
+
+A listening module to control things.
+And it says stuff.
 

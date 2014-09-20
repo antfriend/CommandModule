@@ -52,8 +52,9 @@ boolean you_pushed_it;
 
 void button_pushed()
 {
-    T2S_volume_max();
-    long randNumber = random(16);
+    int randNumber = random(8);
+    set_voice(randNumber);
+    randNumber = random(16);
     switch (randNumber) {
       case 0:
         say("Roger. Stop it.");    
@@ -79,9 +80,14 @@ void button_pushed()
       case 7:
         say("Roger. Don't do that!");
         break;
-                
+      case 8:
+        say("Roger. This is no.");
+        break;     
+      case 9:
+        say("Roger. Do not go to H R.");
+        break;              
       default: 
-          say("Roger. This is no.");
+          T2S_sing_daisy();
           break;
     }  
 }
@@ -124,6 +130,7 @@ void setup()
   digitalWrite(buttonPin,HIGH);
   digitalWrite(13,LOW);
   pinMode(13, OUTPUT);
+  T2S_volume_max();
   
   you_pushed_it = true;//set to false, the button must be held on startup to enter "Rogerisms" mode
   
@@ -134,7 +141,6 @@ void setup()
     if_button_pushed();
   }
   
-
   //saynumber(100);
   //saynumber(0);
   //saynumber(1);
