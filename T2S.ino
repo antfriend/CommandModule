@@ -7,7 +7,6 @@
 */
 
 
-
 void T2S_setup()  // Set up code called once on start-up
 {
   pinMode(rxPin, INPUT);
@@ -31,8 +30,8 @@ void T2S_setup()  // Set up code called once on start-up
   set_voice(2);
   set_settings();
   //say("test 2");
-  long random_seed = analogRead(5);
-  randomSeed(random_seed);
+  //long random_seed = analogRead(5);
+  //randomSeed(random_seed);
   //saynumber(random_seed);
 }
 

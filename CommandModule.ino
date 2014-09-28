@@ -13,11 +13,10 @@
 #define vrtxPin 5    // Serial output (connects to Emic 2 SIN)11
 SoftwareSerial vr_serial = SoftwareSerial(vrrxPin,vrtxPin);//vr
 
-#define rxPin 2    // Serial input (connects to Emic 2 SOUT)
-#define txPin 3    // Serial output (connects to Emic 2 SIN)
-
 #define buttonPin 12    // Serial output (connects to Emic 2 SIN)
 
+#define rxPin 2    // Serial input (connects to Emic 2 SOUT)
+#define txPin 3    // Serial output (connects to Emic 2 SIN)
 SoftwareSerial t2s_serial =  SoftwareSerial(rxPin, txPin);
 
 #include <EasyVR.h>
@@ -49,15 +48,14 @@ enum Group3
 EasyVRBridge bridge;
 int8_t group, idx;
 boolean you_pushed_it;
+int incrementer = 10;
+int start_over_at = 14;
 
-void button_pushed()
+void say_something(int WhatToSay)
 {
-    int randNumber = random(8);
-    set_voice(randNumber);
-    randNumber = random(16);
-    switch (randNumber) {
+    switch (WhatToSay) {
       case 0:
-        say("Roger. Stop it.");    
+        T2S_sing_daisy();   
         break;
       case 1:
         say("Roger. Just quit.");
@@ -86,10 +84,46 @@ void button_pushed()
       case 9:
         say("Roger. Do not go to H R.");
         break;              
+      case 10:
+        say("Roger. Stop it."); 
+        break;            
+      case 11:
+        say("What do you want?");
+        break;        
+      case 12:
+        say("Why?");
+        break;          
+      case 13:
+        say("You aren't making any sense.");
+        break;  
+      case 14:
+        say("I can't understand you when you talk like that.");
+        break;  
       default: 
-          T2S_sing_daisy();
-          break;
+        say("Why do I sound like this?");
+        break;
     }  
+}
+
+void button_pushed()
+{
+    int numberToSay = 0;
+          
+    incrementer++;
+    if(incrementer > start_over_at)
+    {
+      incrementer = 0;
+    }
+    if(incrementer < 11)
+    {
+      set_voice(random(8));
+      numberToSay = random(10);
+    }
+    else
+    {
+      numberToSay = incrementer;
+    }
+    say_something(numberToSay);
 }
 
 void if_button_pushed()
@@ -130,6 +164,10 @@ void setup()
   digitalWrite(buttonPin,HIGH);
   digitalWrite(13,LOW);
   pinMode(13, OUTPUT);
+  
+  randomSeed(analogRead(5));
+  
+  set_voice(random(8));
   T2S_volume_max();
   
   you_pushed_it = true;//set to false, the button must be held on startup to enter "Rogerisms" mode
