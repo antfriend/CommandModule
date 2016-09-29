@@ -51,7 +51,7 @@ void set_settings()
 void T2S_volume_max()
 {
   speaking();
-  t2s_serial.print("V10"); //Volume: [-48 to 18] default=0
+  t2s_serial.print("V18"); //Volume: [-48 to 18] default=0
   postspoke();
 }
 
@@ -254,3 +254,4 @@ void T2S_random_8_ball_response()
           break;
     }  
 }
+

@@ -49,25 +49,25 @@ EasyVRBridge bridge;
 int8_t group, idx;
 boolean you_pushed_it;
 int incrementer = 10;
-int start_over_at = 14;
+int start_over_at = 2;
 
 void say_something(int WhatToSay)
 {
     switch (WhatToSay) {
       case 0:
-        T2S_sing_daisy();   
+        say("Alehxa.  Ask Healthwise.");   
         break;
       case 1:
-        say("Roger. Just quit.");
+        say("Good");
         break;
       case 2:
-        say("Roger. Why?  Why?  Why?");
+        say("I am a robot.");
         break;
       case 3:
-        say("Roger. I hear your mommy calling.");
+        say("Celebrate good times, come on");
         break;
       case 4:
-        say("Roger. You are special.");
+        say("Look out for the quantum singularity!");
         break;
       case 5:
         say("Roger. NO!");
@@ -109,11 +109,12 @@ void button_pushed()
 {
     int numberToSay = 0;
           
-    incrementer++;
+    
     if(incrementer > start_over_at)
     {
       incrementer = 0;
     }
+    /*
     if(incrementer < 11)
     {
       set_voice(random(8));
@@ -122,8 +123,12 @@ void button_pushed()
     else
     {
       numberToSay = incrementer;
-    }
-    say_something(numberToSay);
+    }*/
+    //set_voice(random(8));
+    set_voice(2);
+    numberToSay = random(10);
+    say_something(incrementer);
+    incrementer++;
 }
 
 void if_button_pushed()
@@ -511,3 +516,4 @@ void action()
     }
 }
 */
+
